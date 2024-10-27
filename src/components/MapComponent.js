@@ -31,7 +31,7 @@ const MapComponent = ({ onPinDrop, pins, focusPin }) => {
     };
 
     return (
-        <MapContainer center={[20, 78]} zoom={5} style={{ height: "500px", width: "100%" }}>
+        <MapContainer center={[20, 78]} zoom={5} className="map-container" style={{ height: "500px", width: "100%" }}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
             {/* Render markers based on pins */}

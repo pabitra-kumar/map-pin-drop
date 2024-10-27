@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import MapComponent from "./components/MapComponent";
 import axios from "axios";
+import './App.css';
 
 const App = () => {
   const [pins, setPins] = useState([]);
@@ -53,7 +54,7 @@ const App = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="container">
       <MapComponent onPinDrop={handlePinDrop} pins={pins} focusPin={focusPin} />
       <Sidebar pins={pins} onPinClick={handlePinClick} onDeletePin={handleDeletePin} />
     </div>
