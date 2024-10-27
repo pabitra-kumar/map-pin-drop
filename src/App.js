@@ -23,7 +23,7 @@ const App = () => {
     const address = await fetchAddress(lat, lng);
     const remark = prompt("Enter remark for this location:");
     if (remark) {
-      const newPin = { lat, lng, remark, address };
+      const newPin = { id: Date.now(), lat, lng, remark, address };
       setPins([...pins, newPin]);
     }
   };
@@ -46,25 +46,35 @@ const App = () => {
     setFocusPin(pin);
   };
 
+  // Handler for deleting a pin
+  const handleDeletePin = (pinId) => {
+    const updatedPins = pins.filter((pin) => pin.id !== pinId);
+    setPins(updatedPins);
+  };
+
   return (
     <div style={{ display: "flex" }}>
-      {/* MapComponent now receives pins and focusPin */}
       <MapComponent onPinDrop={handlePinDrop} pins={pins} focusPin={focusPin} />
-      <Sidebar pins={pins} onPinClick={handlePinClick} />
+      <Sidebar pins={pins} onPinClick={handlePinClick} onDeletePin={handleDeletePin} />
     </div>
   );
 };
 
 // Sidebar component to list and navigate to saved pins
-const Sidebar = ({ pins, onPinClick }) => (
+const Sidebar = ({ pins, onPinClick, onDeletePin }) => (
   <div style={{ width: "300px", padding: "10px", borderLeft: "1px solid #ccc", overflowY: "auto" }}>
     <h3>Saved Pins</h3>
     <ul>
-      {pins.map((pin, index) => (
-
-        <li key={index} onClick={() => onPinClick(pin)} style={{ cursor: "pointer", marginBottom: "10px" }}>
+      {pins.map((pin) => (
+        <li key={pin.id} style={{ marginBottom: "10px" }}>
           <p><strong>Remark:</strong> {pin.remark}</p>
           <p><strong>Address:</strong> {pin.address}</p>
+          <button onClick={() => onPinClick(pin)} style={{ marginRight: "5px" }}>
+            Go to Pin
+          </button>
+          <button onClick={() => onDeletePin(pin.id)} style={{ color: "red" }}>
+            Delete
+          </button>
         </li>
       ))}
     </ul>
